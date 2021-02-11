@@ -28,8 +28,9 @@ call plug#begin('~/.config/.vim/plugged')
 
 " Themes
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'maximbaz/lightline-ale'
+Plug 'itchyny/lightline.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
 
 " IDE
 Plug 'easymotion/vim-easymotion'
@@ -50,6 +51,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'sheerun/vim-polyglot'
+Plug 'ap/vim-css-color'
 
 call plug#end()
 
@@ -58,39 +60,30 @@ hi Normal guibg=NONE ctermbg=NONE
 let g:gruvbox_contrast_dark = "hard"
 let g:gruvbox_transparent_bg = "1"
 
-:let g:airline_theme = 'murmur'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
-" air-line
-let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" Lightlane
+let g:lightline = {
+      \ 'active': {
+      \   'left': [['mode', 'paste'], [], ['relativepath', 'modified']],
+      \   'right': [['kitestatus'], ['filetype', 'percent', 'lineinfo'], ['gitbranch']]
+      \ },
+      \ 'inactive': {
+      \   'left': [['inactive'], ['relativepath']],
+      \   'right': [['bufnum']]
+      \ },
+      \ 'component': {
+      \   'bufnum': '%n',
+      \   'inactive': 'inactive'
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'kitestatus': 'kite#statusline'
+      \ },
+      \ 'colorscheme': 'gruvbox',
+      \ 'subseparator': {
+      \   'left': '',
+      \   'right': ''
+      \ }
+      \}
 
 let NERDTreeQuitOnOpen=1
 
@@ -132,7 +125,8 @@ let g:coc_global_extensions = [
   \ 'coc-eslint',
   \ 'coc-prettier',
   \ 'coc-json',
-  \ 'coc-css']
+  \ 'coc-css',
+  \ 'coc-emmet']
 
 " enable Ctrl + space to show coc suggestions
 inoremap <silent><expr><C-space> coc#refresh()
@@ -140,6 +134,7 @@ inoremap <silent><expr><C-space> coc#refresh()
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>t :NERDTreeFind<CR>
 nmap <Leader>r :NERDTreeToggle<CR>
+nmap <F5> :NERDTreeRefreshRoot<CR>
 
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
@@ -166,32 +161,19 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-
-" Syntastic
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 0
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_enable_signs = 1
-
-"let g:syntastic_javascript_checkers = ['eslint']
-"highlight link SyntasticErrorSign SignColumn
-"highlight link SyntasticWarningSign SignColumn
-"highlight link SyntasticStyleErrorSign SignColumn
-"highlight link SyntasticStyleWarningSign SignColumn
-
 " activate rainbow brackets
 let g:rainbow_active = 0
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'gray']
 
 " emmet vim
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+"let g:user_emmet_install_global = 0
+"autocmd FileType html,css EmmetInstall
 let g:user_emmet_leader_key=','
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 " IndentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
