@@ -40,13 +40,10 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'neoclide/coc.nvim', { 'branch' : 'release' }
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
-Plug 'frazrepo/vim-rainbow'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
-Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
 Plug 'Yggdroot/indentLine'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
@@ -86,6 +83,7 @@ let g:lightline = {
       \}
 
 let NERDTreeQuitOnOpen=1
+let NERDTreeHighlightCursorline = 0
 
 let mapleader=" " " leader key
 
@@ -161,9 +159,6 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" activate rainbow brackets
-let g:rainbow_active = 0
-let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'gray']
 
 " emmet vim
 "let g:user_emmet_install_global = 0
